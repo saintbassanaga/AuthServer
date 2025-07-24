@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: app
+
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: admin
+    password: secret
+    url: jdbc:mysql://localhost:3307/appdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  docker:
+    compose:
+      enabled: true
+      lifecycle-management: start_only
+      readiness:
+        wait: only_if_started
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: lazy
+
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: saintpaul
+      client-secret: saintpaul-secret
+    path: /swagger-ui
+server:
+  port: 8082

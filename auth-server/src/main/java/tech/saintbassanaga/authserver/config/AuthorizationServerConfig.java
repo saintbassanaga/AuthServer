@@ -14,6 +14,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -57,7 +59,7 @@ public class AuthorizationServerConfig {
     }
 
     @Bean
-    RegisteredClientRepository registeredClientRepository() {
+    RegisteredClientRepository registereduClientRepository() {
         RegisteredClient registeredClient = RegisteredClient.withId(String.valueOf(UUID.randomUUID()))
                 .clientId("saintpaul")
                 .clientSecret("{noop}saintpaul-secret")
@@ -110,5 +112,10 @@ public class AuthorizationServerConfig {
                 builder.claims(claims -> claims.put("scope", registeredClient.getScopes()));
             }
         });
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
